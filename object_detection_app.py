@@ -14,8 +14,8 @@ from object_detection.utils import visualization_utils as vis_util
 CWD_PATH = os.getcwd()
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
-MODEL_NAME = 'ssd_inception_v2_coco_11_06_2017'
-#MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
+#MODEL_NAME = 'ssd_inception_v2_coco_11_06_2017'
+MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 
 PATH_TO_CKPT = os.path.join(CWD_PATH, 'object_detection', MODEL_NAME, 'frozen_inference_graph.pb')
 
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     parser.add_argument('-ht', '--height', dest='height', type=int,
                         default=360, help='Height of the frames in the video stream.')
     parser.add_argument('-num-w', '--num-workers', dest='num_workers', type=int,
-                        default=2, help='Number of workers.')
+                        default=3, help='Number of workers.')
     parser.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
                         default=3, help='Size of the queue.')
     args = parser.parse_args()
@@ -128,6 +128,7 @@ if __name__ == '__main__':
     print('[INFO] elapsed time (total): {:.2f}'.format(fps.elapsed()))
     print('[INFO] approx. FPS: {:.2f}'.format(fps.fps()))
 
-    pool.terminate()
+    pool.close()
+    pool.join()
     video_capture.stop()
     cv2.destroyAllWindows()
